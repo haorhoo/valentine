@@ -3,7 +3,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Valentine</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 <style>
 body{
   margin:0;
@@ -11,71 +11,99 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(180deg,#5a3a2e,#7b5142);
+  background:radial-gradient(circle at top,#3e2723,#1b1412);
   overflow:hidden;
   font-family:'Playfair Display',serif;
-}/* floating hearts */ .heart{ position:absolute; color:rgba(255,255,255,.25); animation:float 10s linear infinite; } @keyframes float{ from{transform:translateY(100vh) scale(.6)} to{transform:translateY(-10vh) scale(1.2)} }
+  color:#4b2e2a;
+}/* ENVELOPE */ .envelope{ position:absolute; width:320px; height:220px; background:#e0cfc2; border-radius:12px; box-shadow:0 20px 40px rgba(0,0,0,.4); cursor:pointer; transition:1s ease; z-index:5; }
 
-/* envelope */ .envelope{ position:relative; width:320px; height:220px; background:#e9dcd4; border-radius:10px; box-shadow:0 20px 40px rgba(0,0,0,.25); cursor:pointer; transition:.5s; }
+.flap{ position:absolute; width:100%; height:100%; background:#d2b7a7; clip-path:polygon(0 0,100% 0,50% 60%); transform-origin:top; transition:1s; }
 
-.flap{ position:absolute; top:0; left:0; width:100%; height:100%; background:#d8c5bb; clip-path:polygon(0 0,100% 0,50% 60%); transform-origin:top; transition:.6s; z-index:3; }
+.open .flap{ transform:rotateX(180deg); }
 
-.letter{ position:absolute; width:90%; height:90%; background:#fff9f6; top:5%; left:5%; border-radius:16px; padding:28px 24px; box-sizing:border-box; transform:translateY(40px); opacity:0; transition:.7s; text-align:center; }
+/* envelope fly away */ .fly{ animation:flyAway 2.5s forwards ease-in; }
 
-.open .flap{ transform:rotateX(180deg); } .open .letter{ transform:translateY(-40px); opacity:1; }
+@keyframes flyAway{ 0%{transform:translate(0,0) scale(1) rotate(0); opacity:1} 40%{transform:translate(100px,-80px) scale(.8) rotate(20deg)} 70%{transform:translate(200px,-120px) scale(.5) rotate(40deg)} 100%{transform:translate(400px,-200px) scale(.2) rotate(60deg); opacity:0} }
 
-.title{ font-family:'Great Vibes',cursive; font-size:38px; color:#b36b5e; margin-bottom:14px; }
+/* LETTER PAPER */ .paper{ position:absolute; width:420px; max-width:90vw; min-height:320px; background:linear-gradient(180deg,#f5e6d3,#e8d5bd); border:2px solid #c8a97e; border-radius:10px; padding:40px 35px 60px 35px; box-shadow:0 30px 60px rgba(0,0,0,.5); transform:scale(.6); opacity:0; transition:1.2s ease; }
 
-.text{ font-size:18px; color:#5a4037; line-height:1.6; min-height:120px; }
+.showPaper{ transform:scale(1); opacity:1; }
 
-.love{ font-size:28px; margin-top:10px; opacity:0; transition:1s; } .open .love{opacity:1} </style>
+.title{ font-family:'Cinzel',serif; text-align:center; font-size:28px; margin-bottom:25px; }
 
+.text{ font-size:18px; line-height:1.8; text-align:center; min-height:140px; }
+
+/* floating love that follows bottom center */ .love{ position:absolute; bottom:25px; left:50%; transform:translateX(-50%); font-size:26px; opacity:0; transition:1s; }
+
+.showLove{ opacity:1; animation:pulse 2s infinite; }
+
+@keyframes pulse{ 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.2)} }
+
+/* butterflies */ .butterfly{ position:absolute; font-size:22px; animation:butterflyFly 3s forwards ease-in; }
+
+@keyframes butterflyFly{ 0%{transform:translate(0,0);opacity:1} 100%{transform:translate(500px,-200px);opacity:0} }
+
+</style>
 </head>
 <body><div class="envelope" id="env">
   <div class="flap"></div>
-  <div class="letter">
-    <div class="title">Untukmu</div>
-    <div class="text" id="typing"></div>
-    <div class="love">❤</div>
-  </div>
+</div><div class="paper" id="paper">
+  <div class="title">Untukmu</div>
+  <div class="text" id="typing"></div>
+  <div class="love" id="love">❤</div>
 </div><script>
-// hearts background
-for(let i=0;i<18;i++){
-  const h=document.createElement('div');
-  h.className='heart';
-  h.innerHTML='❤';
-  h.style.left=Math.random()*100+'vw';
-  h.style.fontSize=(10+Math.random()*20)+'px';
-  h.style.animationDuration=(6+Math.random()*8)+'s';
-  document.body.appendChild(h);
-}
-
-// open envelope
 const env=document.getElementById('env');
-const text=`Selamat hari Valentine. Semoga hari ini terasa hangat, pelan, dan manis seperti coklat favoritmu. Semoga hal kecil hari ini bisa bikin kamu senyum tanpa sadar. Dan kalau dunia lagi capek, semoga kamu ingat masih ada rasa hangat yang diam diam jagain kamu.`;
+const paper=document.getElementById('paper');
+const love=document.getElementById('love');
 
-let typed=false;
+const message=`Selamat hari Valentine. Semoga hari ini terasa hangat, pelan, dan manis seperti coklat favoritmu. Semoga hal kecil hari ini bisa bikin kamu senyum tanpa sadar. Dan kalau dunia lagi capek, semoga kamu ingat masih ada rasa hangat yang diam diam jagain kamu.`;
+
+let opened=false;
 
 env.onclick=()=>{
- env.classList.toggle('open');
- if(!typed){
-   typed=true;
-   typeText(text);
- }
-}
+ if(opened) return;
+ opened=true;
+ 
+ env.classList.add('open');
+ 
+ setTimeout(()=>{
+   env.classList.add('fly');
+   createButterflies();
+ },800);
+ 
+ setTimeout(()=>{
+   paper.classList.add('showPaper');
+   typeText(message);
+ },1200);
+};
 
-function typeText(str){
+function typeText(text){
  const el=document.getElementById('typing');
- const words=str.split(' ');
+ const words=text.split(' ');
  let i=0;
  function add(){
    if(i<words.length){
      el.innerHTML+=words[i]+' ';
      i++;
-     setTimeout(add,180);
+     setTimeout(add,170);
+   } else {
+     love.classList.add('showLove');
    }
  }
  add();
+}
+
+function createButterflies(){
+ for(let i=0;i<6;i++){
+   const b=document.createElement('div');
+   b.className='butterfly';
+   b.innerHTML='🦋';
+   b.style.left='0px';
+   b.style.top=(100+Math.random()*100)+'px';
+   b.style.animationDuration=(2+Math.random()*2)+'s';
+   document.body.appendChild(b);
+   setTimeout(()=>b.remove(),3000);
+ }
 }
 </script></body>
 </html>
