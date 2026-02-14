@@ -25,19 +25,19 @@ body{
 
 @keyframes flyAway{ 0%{transform:translate(0,0) scale(1) rotate(0); opacity:1} 40%{transform:translate(100px,-80px) scale(.8) rotate(20deg)} 70%{transform:translate(200px,-120px) scale(.5) rotate(40deg)} 100%{transform:translate(400px,-200px) scale(.2) rotate(60deg); opacity:0} }
 
-/* LETTER PAPER */ .paper{ position:absolute; width:420px; max-width:90vw; min-height:320px; background:linear-gradient(180deg,#f5e6d3,#e8d5bd); border:2px solid #c8a97e; border-radius:10px; padding:40px 35px 60px 35px; box-shadow:0 30px 60px rgba(0,0,0,.5); transform:scale(.6); opacity:0; transition:1.2s ease; }
+/* LETTER PAPER */ .paper{ position:absolute; width:420px; max-width:90vw; min-height:320px; background:radial-gradient(circle at 50% 30%,#f3e2b8,#d9c18a 60%,#b79a5e); border:2px solid #9e7b3f; border-radius:10px; padding:40px 35px 60px 35px; box-shadow:0 0 60px rgba(255,215,120,.25), inset 0 0 40px rgba(120,80,20,.35); transform:scale(.6); opacity:0; transition:1.2s ease; }
 
 .showPaper{ transform:scale(1); opacity:1; }
 
-.title{ font-family:'Cinzel',serif; text-align:center; font-size:28px; margin-bottom:25px; }
+.title{ letter-spacing:2px; text-shadow:0 0 8px rgba(255,220,150,.6),0 0 18px rgba(255,190,90,.35); font-family:'Cinzel',serif; text-align:center; font-size:28px; margin-bottom:25px; }
 
-.text{ font-size:18px; line-height:1.8; text-align:center; min-height:140px; }
+.text{ text-shadow:0 0 6px rgba(255,220,150,.35); font-size:18px; line-height:1.8; text-align:center; min-height:140px; }
 
 /* floating love that follows bottom center */ .love{ position:absolute; bottom:25px; left:50%; transform:translateX(-50%); font-size:26px; opacity:0; transition:1s; }
 
 .showLove{ opacity:1; animation:pulse 2s infinite; }
 
-@keyframes pulse{ 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.2)} }
+@keyframes pulse{ 0%,100%{transform:translateX(-50%) scale(1);filter:drop-shadow(0 0 6px #ffcc66)} 50%{transform:translateX(-50%) scale(1.25);filter:drop-shadow(0 0 16px #ffb347)} 0%,100%{transform:translateX(-50%) scale(1)} 50%{transform:translateX(-50%) scale(1.2)} }
 
 /* butterflies */ .butterfly{ position:absolute; font-size:22px; animation:butterflyFly 3s forwards ease-in; }
 
