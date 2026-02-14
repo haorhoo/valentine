@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Valentine Letter</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#3b2a26;
+  --bg2:#5a3e36;
+  --cream:#f6e9e4;
+  --paper:#fff7f4;
+  --accent:#c97b6a;
+}
+body{
+  margin:0; height:100vh; display:flex; align-items:center; justify-content:center;
+  background:radial-gradient(circle at top,var(--bg2),var(--bg1));
+  font-family:'Playfair Display',serif; overflow:hidden;
+}
+.card{
+  width:320px; max-width:90vw; background:var(--paper); border-radius:16px;
+  box-shadow:0 10px 40px rgba(0,0,0,.4); padding:28px; text-align:center;
+  transform:scale(.7); opacity:0; animation:pop .9s ease forwards .8s;
+}
+@keyframes pop{to{transform:scale(1);opacity:1}}
+.title{font-family:'Great Vibes',cursive;font-size:42px;color:var(--accent);margin-bottom:10px}
+.text{font-size:18px;line-height:1.7;color:#4a2f2a;min-height:120px}
+.heart{font-size:28px;color:#c44;opacity:0;animation:fade 1s ease forwards 6s}
+@keyframes fade{to{opacity:1}}
+.float-heart{position:absolute;color:#ffb3b3;font-size:18px;animation:float 7s linear infinite}
+@keyframes float{from{transform:translateY(40vh) scale(.6);opacity:.2}to{transform:translateY(-60vh) scale(1.2);opacity:0}}
+.qrbox{position:fixed;bottom:12px;right:12px;background:#fff7f4cc;padding:8px;border-radius:12px;font-size:10px;text-align:center}
+</style>
+</head>
+<body><div class="card">
+  <div class="title">Untukmu</div>
+  <div class="text" id="type"></div>
+  <div class="heart">❤</div>
+</div><div class="qrbox">
+  Scan untuk buka surat 💌
+  <div id="qrcode"></div>
+</div><script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script><script>
+const message = "Selamat hari Valentine. Semoga hari ini terasa hangat, pelan, dan manis seperti coklat favoritmu. Semoga hal kecil hari ini bisa bikin kamu senyum tanpa sadar. Dan kalau dunia lagi capek, semoga kamu ingat masih ada rasa hangat yang diam diam jagain kamu.".split(" ");
+
+let i=0;
+function typeWord(){
+  if(i<message.length){
+    document.getElementById('type').innerHTML += message[i] + ' ';
+    i++; setTimeout(typeWord,180);
+  }
+}
+setTimeout(typeWord,1200);
+
+// floating hearts
+for(let i=0;i<20;i++){
+ const h=document.createElement('div');
+ h.className='float-heart';
+ h.textContent='❤';
+ h.style.left=Math.random()*100+'vw';
+ h.style.animationDelay=Math.random()*7+'s';
+ document.body.appendChild(h);
+}
+
+// generate QR pointing to this page URL
+new QRCode(document.getElementById("qrcode"),{
+  text: window.location.href,
+  width:100,
+  height:100
+});
+</script></body>
+</html>
