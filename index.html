@@ -1,163 +1,256 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Valentine Letter</title>
+<title>Valentine Fantasy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--brown:#5b3a2e;--cream:#f4e6d7;--accent:#d24a6a}
-body{margin:0;height:100vh;background:radial-gradient(circle at 50% 30%,#8b5e4c,#3a251d);display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;overflow:hidden}
-.stage{position:relative;width:100%;height:100%}/* ENVELOPE */ .envelope{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%);width:220px;height:140px;background:linear-gradient(#e9d7c6,#caa68a);border-radius:6px;box-shadow:0 10px 25px rgba(0,0,0,.4);cursor:pointer} .envelope:before{content:"";position:absolute;left:0;top:-70px;border-left:110px solid transparent;border-right:110px solid transparent;border-bottom:70px solid #d9b99e;transform-origin:bottom;transition:.8s} .envelope.open:before{transform:rotateX(180deg)}
-
-/* PAPER */ .paper{position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) scale(.6);width:320px;height:420px;background:linear-gradient(#f8f1e6,#efe0c8);border-radius:6px;box-shadow:0 25px 60px rgba(0,0,0,.5);opacity:0;transition:1s} .paper.show{opacity:1;transform:translate(-50%,-50%) scale(1)} .paper:after{content:"";position:absolute;left:0;bottom:0;width:100%;height:140px;background:linear-gradient(to top,rgba(0,0,0,.55),transparent);animation:burn 5s forwards 6s} @keyframes burn{to{opacity:0;transform:translateY(160px)}}
-
-.text{padding:50px 40px;text-align:center;color:#4b2f24;font-size:22px;line-height:1.6} .word{opacity:0;display:inline-block;margin:0 3px;transform:translateY(10px)} .word.show{animation:appear .6s forwards} @keyframes appear{to{opacity:1;transform:none}}
-
-/* HEART FOLLOWER */ .heart{position:absolute;font-size:26px;color:#ff6b8f;opacity:0;transition:.5s}
-
-/* BUTTERFLY */ .butterfly{position:absolute;font-size:22px;opacity:0;animation:fly 6s linear forwards} @keyframes fly{0%{transform:translate(-200px,200px) scale(.6)}100%{transform:translate(120vw,-40vh) scale(1.2)}}
-
-/* BAG */
-.bagWrap{
-  position:absolute;
-  left:50%;
-  bottom:-250px;
-  transform:translateX(-50%);
-  opacity:0;
-  transition:1.5s ease;
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at top,#2b1d1a,#120c0b);
+  overflow:hidden;
+  font-family:'Playfair Display',serif;
 }
 
-.bagWrap.show{
-  bottom:80px;
+/* ENVELOPE */
+.envelope{
+  position:absolute;
+  width:320px;
+  height:220px;
+  background:#e0cfc2;
+  border-radius:12px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  cursor:pointer;
+  transition:1s ease;
+  z-index:5;
+}
+
+.flap{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:#d2b7a7;
+  clip-path:polygon(0 0,100% 0,50% 60%);
+  transform-origin:top;
+  transition:1s;
+}
+
+.open .flap{ transform:rotateX(180deg); }
+
+.fly{
+  animation:flyAway 2.5s forwards ease-in;
+}
+
+@keyframes flyAway{
+  100%{transform:translate(450px,-220px) scale(.2) rotate(60deg); opacity:0}
+}
+
+/* MAGIC PAPER */
+.paper{
+  position:absolute;
+  width:420px;
+  max-width:90vw;
+  min-height:320px;
+  background:radial-gradient(circle at 50% 30%,#f3e2b8,#d9c18a 60%,#b79a5e);
+  border:2px solid #9e7b3f;
+  border-radius:10px;
+  padding:40px 35px 60px 35px;
+  box-shadow:0 0 60px rgba(255,215,120,.25), inset 0 0 40px rgba(120,80,20,.35);
+  transform:scale(.6);
+  opacity:0;
+  transition:1.2s ease;
+  text-align:center;
+}
+
+.showPaper{
+  transform:scale(1);
   opacity:1;
 }
 
-/* tali gantung */
-.bagWrap::before{
-  content:"";
-  position:absolute;
-  top:-120px;
-  left:50%;
-  width:2px;
-  height:120px;
-  background:rgba(255,255,255,.6);
-  transform:translateX(-50%);
+.fadeOutPaper{
+  animation:burnAway 2s forwards ease-in;
 }
 
-/* plastik bening */
-.bag{
+@keyframes burnAway{
+  0%{clip-path:inset(0 0 0 0)}
+  100%{clip-path:inset(100% 0 0 0); opacity:0}
+}
+
+.title{
+  font-family:'Cinzel',serif;
+  font-size:28px;
+  margin-bottom:25px;
+  text-shadow:0 0 12px rgba(255,220,150,.7);
+}
+
+.text{
+  font-size:18px;
+  line-height:1.8;
+  min-height:140px;
+  text-shadow:0 0 6px rgba(255,220,150,.4);
+}
+
+.love{
+  position:absolute;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:26px;
+  opacity:0;
+}
+
+.showLove{
+  opacity:1;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{transform:translateX(-50%) scale(1)}
+  50%{transform:translateX(-50%) scale(1.25)}
+}
+
+/* butterflies second appearance */
+.butterfly{
+  position:absolute;
+  font-size:22px;
+  animation:butterflyPass 4s forwards linear;
+}
+
+@keyframes butterflyPass{
+  0%{transform:translate(0,0);opacity:1}
+  100%{transform:translate(-500px,-400px);opacity:0}
+}
+
+/* VALENTINE GIFT */
+.gift{
+  position:absolute;
+  width:140px;
+  height:180px;
+  opacity:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+.showGift{
+  opacity:1;
+  animation:popGift 1s ease forwards;
+}
+
+@keyframes popGift{
+  0%{transform:scale(.5);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+.plastic{
   width:120px;
-  height:190px;
-  background:linear-gradient(
-    to bottom,
-    rgba(255,255,255,.75),
-    rgba(255,255,255,.25) 40%,
-    rgba(255,255,255,.4)
-  );
-  border-radius:14px;
+  height:140px;
+  background:rgba(255,255,255,.25);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:20px;
+  backdrop-filter:blur(4px);
   position:relative;
-  box-shadow:
-    inset 0 0 18px rgba(255,255,255,.8),
-    inset 0 -15px 25px rgba(255,255,255,.3);
-  animation:swing 4s ease-in-out infinite;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
 }
 
-/* goyang natural */
-@keyframes swing{
-  0%{ transform:rotate(-5deg); }
-  50%{ transform:rotate(5deg); }
-  100%{ transform:rotate(-5deg); }
-}
-
-/* lipatan atas plastik */
-.bag::after{
-  content:"";
-  position:absolute;
-  top:-35px;
-  left:50%;
-  transform:translateX(-50%);
-  border-left:45px solid transparent;
-  border-right:45px solid transparent;
-  border-bottom:35px solid rgba(255,255,255,.6);
-}
-
-/* pita */
 .ribbon{
-  width:70px;
-  height:18px;
-  background:#d24a6a;
   position:absolute;
-  top:-12px;
-  left:50%;
-  transform:translateX(-50%);
-  border-radius:6px;
-  box-shadow:0 3px 8px rgba(0,0,0,.3);
+  top:-15px;
+  width:40px;
+  height:30px;
+  background:#ff8fb1;
+  border-radius:50% 50% 0 0;
 }
 
-.ribbon:before,
-.ribbon:after{
-  content:"";
-  position:absolute;
-  width:20px;
-  height:20px;
-  background:#d24a6a;
-  border-radius:50%;
-  top:-6px;
-}
-
-.ribbon:before{ left:-12px; }
-.ribbon:after{ right:-12px; }
-
-/* coklat hati stabil */
 .choco{
-  position:absolute;
-  width:45px;
-  height:45px;
-  background:#4a2a1e;
-  transform:rotate(-45deg);
-  bottom:35px;
-  box-shadow:
-    inset -6px -6px 10px rgba(0,0,0,.4),
-    inset 6px 6px 10px rgba(255,255,255,.15);
+  font-size:28px;
 }
 
-.choco::before,
-.choco::after{
-  content:"";
-  position:absolute;
-  width:45px;
-  height:45px;
-  background:inherit;
-  border-radius:50%;
-}
-
-.choco::before{ top:-22px; left:0; }
-.choco::after{ left:22px; top:0; }
-
-.choco:nth-child(2){
-  left:20px;
-}
-
-.choco:nth-child(3){
-  right:20px;
-  }
-  
+</style>
 </head>
 <body>
-<div class="stage">
-  <div class="envelope" id="env"></div>
-  <div class="paper" id="paper"><div class="text" id="text"></div></div>
-  <div class="heart" id="heart">❤</div>
-  <div class="bagWrap" id="bag"><div class="bag"><div class="ribbon"></div><div class="choco"></div><div class="choco"></div></div></div>
+
+<div class="envelope" id="env">
+  <div class="flap"></div>
 </div>
-<audio id="bg" src="bg.mp3"></audio>
+
+<div class="paper" id="paper">
+  <div class="title">Untukmu</div>
+  <div class="text" id="typing"></div>
+  <div class="love" id="love">❤</div>
+</div>
+
+<div class="gift" id="gift">
+  <div class="plastic">
+    <div class="ribbon"></div>
+    <div class="choco">🍫</div>
+    <div class="choco">🍫</div>
+  </div>
+</div>
+
 <script>
-const msg="Selamat Hari Valentine semoga hari ini penuh hangat dan senyum untukmu ❤".split(" ");
 const env=document.getElementById('env');
 const paper=document.getElementById('paper');
-const text=document.getElementById('text');
-const heart=document.getElementById('heart');
-const bag=document.getElementById('bag');
-const bg=document.getElementById('bg');env.onclick=()=>{ bg.play().catch(()=>{}); env.classList.add('open'); setTimeout(()=>paper.classList.add('show'),600); let i=0; const add=()=>{ if(i>=msg.length){setTimeout(()=>bag.classList.add('show'),5000);return} const span=document.createElement('span'); span.className='word';span.textContent=msg[i]; text.appendChild(span); setTimeout(()=>span.classList.add('show'),50); heart.style.opacity=1; heart.style.left=(span.offsetLeft+span.offsetWidth/2)+'px'; heart.style.top=(span.offsetTop+60)+'px'; i++;setTimeout(add,380); }; setTimeout(add,1000); }; </script>
+const love=document.getElementById('love');
+const gift=document.getElementById('gift');
+
+const message=`Selamat hari Valentine. Semoga hari ini terasa hangat, pelan, dan manis seperti coklat favoritmu.`;
+
+let opened=false;
+
+env.onclick=()=>{
+ if(opened) return;
+ opened=true;
+ env.classList.add('open');
+ setTimeout(()=>{ env.classList.add('fly'); },800);
+ setTimeout(()=>{
+   paper.classList.add('showPaper');
+   typeText(message);
+ },1200);
+};
+
+function typeText(text){
+ const el=document.getElementById('typing');
+ const words=text.split(' ');
+ let i=0;
+ function add(){
+   if(i<words.length){
+     el.innerHTML+=words[i]+' ';
+     i++;
+     setTimeout(add,170);
+   } else {
+     love.classList.add('showLove');
+     setTimeout(()=>{
+       paper.classList.add('fadeOutPaper');
+       setTimeout(showFinalScene,2000);
+     },2000);
+   }
+ }
+ add();
+}
+
+function showFinalScene(){
+ for(let i=0;i<5;i++){
+   const b=document.createElement('div');
+   b.className='butterfly';
+   b.innerHTML='🦋';
+   b.style.right='0px';
+   b.style.bottom='0px';
+   document.body.appendChild(b);
+   setTimeout(()=>b.remove(),4000);
+ }
+ gift.classList.add('showGift');
+}
+</script>
 
 </body>
 </html>
